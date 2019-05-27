@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
-import ImageGrab # from PIL
+
 import time
-from PIL import Image, ImageChops
+from PIL import Image
 from PIL.GifImagePlugin import getheader, getdata
 import os
 import numpy as np
@@ -133,22 +133,23 @@ def writeGif(filename, images, duration=0.1, loops=0, dither=1):
     # 写入GIF
     try:
         n = _writeGifToFile(fp, images2, durations, loops)
-        print n, '帧图像已经写入'
+        print(n, '帧图像已经写入')
     finally:
         fp.close()
 
+
 if __name__ == "__main__":
     seq = []
-    steps = float(raw_input("输入录制间隔(单位:秒):"))
-    x = raw_input("按下任意键开始录制...")
+    steps = float(input("输入录制间隔(单位:秒):"))
+    x = input("按下任意键开始录制...")
     os.system("mkdir images")  # 创建一个文件夹,用于存放临时文件
     for i in range(10):
         time.sleep(steps)
-        im = ImageGrab.grab((0, 0, 1920, 1080))  # 捕捉屏幕的左上角(0,0,320,245)部分
+        im = Image.grab((0, 0, 1920, 1080))  # 捕捉屏幕的左上角(0,0,320,245)部分
         # 这里由于ImageGrab.grab返回的图像格式未知,只能使用笨办法,每次存盘再打开,格式就正确了
         im.save("images\\test" + str(i) + ".jpg")  # 图像存入
         seq.append(Image.open("images\\test" + str(i) + ".jpg"))  # 重新打开
-        print "采集了第" + str(i) + "帧图像"
-    print "屏幕捕捉完成"
+        print("采集了第" + str(i) + "帧图像")
+    print("屏幕捕捉完成")
     writeGif('output.gif', seq, duration=0.5, dither=0)
-    x = raw_input("按下任意键退出")
+    x = input("按下任意键退出")

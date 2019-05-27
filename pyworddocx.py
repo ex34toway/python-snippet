@@ -8,16 +8,16 @@ import codecs
 def list_dir_and_write(document, path):
     cwd = os.getcwd()
     full_file_path = cwd+"\\"+path
-    print full_file_path
+    print(full_file_path)
     path_list = os.listdir(full_file_path)
     for dir_path in path_list:
         full_path = os.path.join(full_file_path, dir_path)
         if os.path.isfile(full_path):
-            print os.path.abspath(full_path)
+            print(os.path.abspath(full_path))
             write_java_file_to_document(document, dir_path, full_path)
         else:
             pt = os.path.abspath(full_path)
-            print pt
+            print(pt)
             list_dir_and_write(document, full_path.replace(cwd+"\\", ""))
 
 

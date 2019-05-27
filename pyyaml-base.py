@@ -12,8 +12,8 @@ if __name__ == "__main__":
     """
     config = yaml.load(document)
     server = config['server']
-    print server['port']
-    print server['tomcat']['min-spare-threads']
-    print server['tomcat']['max-threads']
-    print server['tomcat']['uri-encoding']
-    print type(server)
+    print(server['port'])
+    print(server['tomcat']['min-spare-threads'])
+    print(server['tomcat']['max-threads'])
+    print(server['tomcat']['uri-encoding'])
+    print(type(server))
