@@ -1,3 +1,5 @@
+import string
+
 from googletrans import Translator
 
 import MySQLdb
@@ -20,7 +22,7 @@ if len(rs) > 0:
     translator = Translator(proxies={"http": "http://127.0.0.1:23599",
                                      "https": "http://127.0.0.1:23599"})
     for row in rs:
-        value = translator.translate(row[1]).text
+        value = string.capwords(translator.translate(row[1]).text)
         i18n.set('AssetCategory', "AssetCategory."+str(row[0]), value)
 
 # Writing our configuration file to 'example.cfg'
