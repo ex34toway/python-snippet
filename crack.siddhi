@@ -1,0 +1,22 @@
+-- InputStream
+define stream inputEventStream (eventId long, 
+eventType string, 
+srcAddress string, 
+destAddress string, 
+destUserName string, 
+catTechnique string, 
+catBehavior string, 
+catOutcome string, 
+deviceCat string);
+from 
+-- Pattern Match
+every e1 = inputEventStream[catBehavior == '/Authentication/Verify' and catOutcome == 'FAIL']<5:> 
+-> e2 = inputEventStream[srcAddress == e1.srcAddress and 
+destAddress == e1.destAddress and catBehavior == '/Authentication/Verify' 
+and catOutcome == 'Ok']<1:> 
+-> e3 = inputEventStream[srcAddress == e1.srcAddress and 
+destAddress == e1.destAddress and catTechnique == '/Exploit/PrivilegeEscalation' 
+and (deviceCat == '/IDS/Network' or deviceCat == '/IDS' or deviceCat == '/Firewall' or deviceCat == '/IDS/Host') ] 
+within 5 min
+-- OutputStream
+select e1.eventType as E1_Pattern,e2.eventType as E2_Pattern,e3.eventType as E3_Pattern insert into outputEventStream
