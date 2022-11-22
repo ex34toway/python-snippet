@@ -2,10 +2,10 @@ from socket import *
 import json
 
 
-host = '10.50.2.251'
-port = 514
+host = '127.0.0.1'
+port = 5148
 
-times = 1_000_000_000
+times = 1
 
 def syslog():
     ip_port = (host, port)
