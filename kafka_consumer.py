@@ -10,14 +10,16 @@ if __name__ == '__main__':
     consumer = KafkaConsumer(topic,
                          group_id=groupId,
                          bootstrap_servers=['localhost:9092'],
-                         auto_offset_reset='earliest', enable_auto_commit=False)
+                         auto_offset_reset='latest', enable_auto_commit=False)
 
     total_count = 0
-    print(consumer.partitions_for_topic(topic))
+    partition_count = len(consumer.partitions_for_topic(topic));
+    print(f'topic: {topic}, partitions: {partition_count}')
     try:
         while True:
-            msg = consumer.poll(timeout_ms = 1000)
-            print(msg)
+            for m in consumer:
+                msg = json.loads(m.value)
+                print(msg)
     except KeyboardInterrupt:
         pass
     finally:
